@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Result</h1>
+<p>You scored {{ score }} out of {{ total }}.</p>
+<hr>
+{% for result in results %}
+    <div>
+        <p>{{ loop.index }}. {{ result.question }}</p>
+        <ul class="list-unstyled">
+            <li class="{% if result.options.A == result.correct_answer %}text-success{% elif result.options.A == result.user_answer %}text-danger{% endif %}">
+                A) {{ result.options.A }}
+            </li>
+            <li class="{% if result.options.B == result.correct_answer %}text-success{% elif result.options.B == result.user_answer %}text-danger{% endif %}">
+                B) {{ result.options.B }}
+            </li>
+            <li class="{% if result.options.C == result.correct_answer %}text-success{% elif result.options.C == result.user_answer %}text-danger{% endif %}">
+                C) {{ result.options.C }}
+            </li>
+            <li class="{% if result.options.D == result.correct_answer %}text-success{% elif result.options.D == result.user_answer %}text-danger{% endif %}">
+                D) {{ result.options.D }}
+            </li>
+        </ul>
+        <p>Your answer: <span class="{% if result.is_correct %}text-success{% else %}text-danger{% endif %}">{{ result.user_answer }}</span></p>
+        <p>Correct answer: <span class="text-success">{{ result.correct_answer }}</span></p>
+    </div>
+    <hr>
+{% endfor %}
+{% endblock %}

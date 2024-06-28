@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Quiz</h1>
+<form action="/submit" method="post" id="quiz-form">
+    {% for question in questions %}
+        <div class="mt-4">
+            <p>{{ loop.index }}. {{ question['Question'] }}</p>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="question_{{ loop.index }}" value="{{ question['Option A'] }}" id="optionA_{{ loop.index }}">
+                <label class="form-check-label" for="optionA_{{ loop.index }}">
+                    A) {{ question['Option A'] }}
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="question_{{ loop.index }}" value="{{ question['Option B'] }}" id="optionB_{{ loop.index }}">
+                <label class="form-check-label" for="optionB_{{ loop.index }}">
+                    B) {{ question['Option B'] }}
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="question_{{ loop.index }}" value="{{ question['Option C'] }}" id="optionC_{{ loop.index }}">
+                <label class="form-check-label" for="optionC_{{ loop.index }}">
+                    C) {{ question['Option C'] }}
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="question_{{ loop.index }}" value="{{ question['Option D'] }}" id="optionD_{{ loop.index }}">
+                <label class="form-check-label" for="optionD_{{ loop.index }}">
+                    D) {{ question['Option D'] }}
+                </label>
+            </div>
+        </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary mt-4">Submit</button>
+</form>
+
+<script>
+    var timeLeft = 6 * 6; // 60 minutes in seconds
+    var timerElement = document.createElement("div");
+    timerElement.className = "alert alert-warning";
+    timerElement.setAttribute("role", "alert");
+    timerElement.style.position = "fixed";
+    timerElement.style.top = "10px";
+    timerElement.style.right = "10px";
+    document.body.appendChild(timerElement);
+
+    function updateTimer() {
+        var minutes = Math.floor(timeLeft / 6);
+        var seconds = timeLeft % 6;
+        timerElement.innerHTML = "Time remaining: " + minutes + " minutes " + seconds + " seconds";
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            document.getElementById("quiz-form").submit();
+        }
+        timeLeft--;
+    }
+
+    var timerInterval = setInterval(updateTimer, 1000);
+</script>
+{% endblock %}
